@@ -1,4 +1,4 @@
-name: "Avaliador automático"
+name: "CI"
 on:
   pull_request:
 jobs:
