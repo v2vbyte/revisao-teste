@@ -17,3 +17,26 @@ jobs:
         with:
           name: test-results
           path: jest-junit.xml
+
+  report:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download test artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: test-results # Nome do artefato gerado no primeiro workflow
+
+      - name: Generate test report
+        uses: dorny/test-reporter@v1
+        with:
+          name: JEST Tests # Nome da seção que será exibida
+          path: "*.xml" # Certifique-se de apontar corretamente para os arquivos gerados (ajuste se necessário)
+          reporter: jest-junit # Formato do relatório gerado pelos testes
+          fail-on-error: false
+
+      - uses: dorny/test-reporter@v1
+        with:
+          artifact: test-results # artifact name
+          name: JEST Tests # Name of the check run which will be created
+          path: "*.xml" # Path to test results (inside artifact .zip)
+          reporter: jest-junit # Format of test results
